@@ -44,3 +44,12 @@ Blocked domains resolve to 0.0.0.0 and log blocked true.
 - Exact-domain blocking: ads.com does not block sub.ads.com.
 - DoH/DoT bypass: browsers with DNS-over-HTTPS or TLS skip this proxy.
 - UDP only; needs admin for port 53; stdlib only (psutil optional).
+
+
+## GUI
+
+Run as ADMIN (port 53 needs privilege):
+
+    python gui.py
+
+Features: Start/Stop server, blocklist search, monitoring tail 200 auto 2s.
