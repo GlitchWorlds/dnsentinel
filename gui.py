@@ -85,10 +85,15 @@ def main():
     root = tk.Tk()
     root.title('DNSentinel')
     root.geometry('640x560')
-    info = CFG.get('listen', '127.0.0.1') + ':' + str(CFG.get('port', 53))
+    listen = str(CFG.get('listen', '127.0.0.1')) + ':' + str(CFG.get('port', 53))
+    up = CFG.get('upstream', CFG.get('upstreams', CFG.get('forward', '')))
+    if isinstance(up, list):
+        up = ','.join([str(x) for x in up])
+    up = str(up) if up else 'default'
     top = tk.Frame(root)
     top.pack(fill='x', padx=8, pady=2)
-    tk.Label(top, text=info, anchor='w').pack(fill='x')
+    tk.Label(top, text=listen, anchor='w').pack(fill='x')
+    tk.Label(top, text='upstream: ' + up, anchor='w').pack(fill='x')
     tk.Label(top, text='admin for port 53', anchor='w').pack(fill='x')
     srow = tk.Frame(root)
     srow.pack(pady=2)
