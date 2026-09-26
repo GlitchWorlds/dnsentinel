@@ -53,3 +53,7 @@ Run as ADMIN (port 53 needs privilege):
     python gui.py
 
 Features: Start/Stop server, blocklist search, monitoring tail 200 auto 2s.
+
+## Installer Windows
+
+Cara build: jalankan build-exe.bat, hasil dist/DNSentinel.exe. Installer: compile installer/DNSentinel.iss via Inno Setup.
