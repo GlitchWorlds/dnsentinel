@@ -9,3 +9,4 @@ blocklist: blocklist.txt
 log: logs/dns.log
 egress_log: logs/egress.log
 egress_interval: 10
+autostart: off

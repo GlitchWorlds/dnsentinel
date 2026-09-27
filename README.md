@@ -57,3 +57,18 @@ Features: Start/Stop server, blocklist search, monitoring tail 200 auto 2s.
 ## Installer Windows
 
 Cara build: jalankan build-exe.bat, hasil dist/DNSentinel.exe. Installer: compile installer/DNSentinel.iss via Inno Setup.
+
+
+## Tracking + Autostart
+
+Network tracking:
+
+    python nettrack.py
+
+Autostart (Windows Task Scheduler):
+
+    python autostart.py status
+    python autostart.py enable
+    python autostart.py disable
+
+GUI: Settings checkbox Autostart + Apply button, NetTrack tail 20.
