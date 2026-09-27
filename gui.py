@@ -3,6 +3,7 @@ import os
 import sys
 import threading
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import autostart
 from agent import load_config, load_blocklist, save_blocklist, serve
 CFG = load_config()
 SRV_THREAD = None
@@ -81,6 +82,30 @@ def open_logs(status):
         status.config(text='logs opened')
     except OSError:
         status.config(text='logs dir')
+def apply_autostart(var,status):
+    try:
+        c=autostart
+        m=getattr(c,'enable',None)
+        n=getattr(c,'disable',None)
+        s=status
+        v=var.get()
+        f=m if v else n
+        f() if f else None
+        s.config(text='autostart on' if v else 'autostart off')
+    except Exception:
+        status.config(text='autostart err')
+def refresh_nettrack(w,status):
+    try:
+        b=os.path.dirname(os.path.abspath(__file__))
+        q=os.path.join(b,'logs','nettrack.log')
+        ls=tail_file(q,20)
+        w.config(state='normal')
+        w.delete('1.0','end')
+        [w.insert('end',x+chr(10)) for x in ls]
+        w.config(state='disabled')
+        status.config(text='nettrack ok')
+    except Exception:
+        status.config(text='nettrack err')
 def main():
     root = tk.Tk()
     root.title('DNSentinel')
@@ -121,6 +146,14 @@ def main():
     tk.Button(lrow, text='Clear', command=lambda: clear_views(dns_text, egress_text)).pack(side='left', padx=4)
     tk.Button(lrow, text='Logs', command=lambda: open_logs(status)).pack(side='left', padx=4)
     status.pack(fill='x', padx=8)
+    sf=tk.LabelFrame(root,text='Settings')
+    sf.pack(fill='x',padx=8,pady=2)
+    av=tk.BooleanVar()
+    tk.Checkbutton(sf,text='Autostart',variable=av).pack(side='left',padx=4)
+    tk.Button(sf,text='Apply',command=lambda: apply_autostart(av,status)).pack(side='left',padx=4)
+    tk.Button(sf,text='NetTrack',command=lambda: refresh_nettrack(nt,status)).pack(side='left',padx=4)
+    nt=tk.Text(sf,height=4)
+    nt.pack(fill='x',padx=4)
     refresh_block(box)
     refresh_logs(root, dns_text, egress_text)
     root.mainloop()
