@@ -157,5 +157,5 @@ def main():
     refresh_block(box)
     refresh_logs(root, dns_text, egress_text)
     root.mainloop()
-if '__name__' == '__main__':
+if __name__ == '__main__':
     main()
